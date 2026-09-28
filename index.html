@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Min-En (Elsa) Chou</title>
+  <meta name="description" content="Min-En (Elsa) Chou, experimental AMO physicist working toward AI for quantum systems.">
+  <!-- Favicon -->
+  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cstyle%3E.s%7Bfill:none%3Bstroke:%235673a8%7D.f%7Bfill:%235673a8%7D%40media%20%28prefers-color-scheme:dark%29%7B.s%7Bstroke:%239fb6df%7D.f%7Bfill:%239fb6df%7D%7D%3C/style%3E%3Cpath%20class='s'%20d='M22.96%209.04A9.84%209.84%200%201%200%2022.96%2022.96'%20stroke-width='3.84'%20stroke-linecap='round'/%3E%3Ccircle%20class='f'%20cx='16'%20cy='16'%20r='3.48'/%3E%3C/svg%3E">
+  <base target="_blank">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --serif: "Source Serif 4", "Noto Serif TC", "Songti TC", Georgia, serif;--bg: #fbfaf8; --ink: #1c1c1c; --body: #3a3a3a; --muted: #666; --faint: #8e8e8e; --line: #e6e3de; --accent: #5673a8; --soft: #eef1f7; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #111213; --ink: #ececec; --body: #c9c9c9; --muted: #9a9a9a; --faint: #767676; --line: #262829; --accent: #9fb6df; --soft: #1c212b; }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { background: var(--bg); color: var(--ink);
+           font: 400 16.5px/1.7 var(--serif);
+           -webkit-font-smoothing: antialiased; }
+    html[lang="zh-Hant"] body { line-height: 1.85; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 88px 24px 64px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Floating buttons */
+    .fab { position: fixed; top: 20px; z-index: 30;
+           width: 40px; height: 40px; border-radius: 50%;
+           display: grid; place-items: center;
+           border: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 85%, transparent);
+           -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+           color: var(--ink); font: 600 14px/1 var(--serif);
+           letter-spacing: 0.02em; cursor: pointer;
+           transition: border-color .15s, color .15s, transform .15s, background-color .15s; }
+    .fab:hover { border-color: var(--accent); color: var(--accent); }
+    .fab:active { transform: scale(0.94); }
+    .fab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .lang-toggle { right: 20px; }
+
+    /* Hamburger (mobile / narrow screens) */
+    .menu-toggle { right: 20px; }
+    .menu-toggle .bars { position: relative; width: 16px; height: 12px; }
+    .menu-toggle .bars span { position: absolute; left: 0; width: 100%; height: 1.5px; border-radius: 2px; background: currentColor;
+                              transition: transform .22s ease, opacity .15s ease, top .22s ease; }
+    .menu-toggle .bars span:nth-child(1) { top: 0; }
+    .menu-toggle .bars span:nth-child(2) { top: 5.25px; }
+    .menu-toggle .bars span:nth-child(3) { top: 10.5px; }
+    .menu-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); background: var(--soft); }
+    .menu-toggle[aria-expanded="true"] .bars span:nth-child(1) { top: 5.25px; transform: rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] .bars span:nth-child(2) { opacity: 0; }
+    .menu-toggle[aria-expanded="true"] .bars span:nth-child(3) { top: 5.25px; transform: rotate(-45deg); }
+
+    /* Timeline nav */
+    .tl { list-style: none; position: relative; --dotbg: var(--bg); --fill: 0px; }
+    .tl::before, .tl::after { content: ""; position: absolute; left: 5px; top: 17px; width: 1px; }
+    .tl::before { bottom: 17px; background: color-mix(in srgb, var(--accent) 28%, var(--line)); }
+    .tl::after { height: var(--fill); background: var(--accent); transition: height .3s ease; }
+    .tl a { display: flex; align-items: center; gap: 14px; padding: 7px 0;
+            color: var(--muted); font-size: 12px; font-weight: 500; line-height: 21px;
+            letter-spacing: 0.11em; text-transform: uppercase; white-space: nowrap;
+            transition: color .15s; }
+    html[lang="zh-Hant"] .tl a { font-size: 13px; letter-spacing: 0.16em; }
+    .tl a:hover { color: var(--accent); text-decoration: none; }
+    .tl .dot { position: relative; z-index: 1; flex: none; width: 11px; height: 11px; border-radius: 50%;
+               border: 1.5px solid color-mix(in srgb, var(--accent) 50%, var(--line)); background: var(--dotbg);
+               transition: background-color .2s, border-color .2s, box-shadow .2s, transform .2s; }
+    .tl a:hover .dot { border-color: var(--accent); }
+    .tl a.passed .dot { border-color: var(--accent); }
+    .tl a.active { color: var(--accent); }
+    .tl a.active .dot { background: var(--accent); border-color: var(--accent);
+                        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+    .tl a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    /* Home link above the timeline */
+    .nav-home { display: flex; align-items: center; gap: 14px; padding: 7px 0; margin-bottom: 4px;
+                color: var(--muted); font-size: 12px; font-weight: 500; line-height: 21px;
+                letter-spacing: 0.11em; text-transform: uppercase; white-space: nowrap; transition: color .15s; }
+    html[lang="zh-Hant"] .nav-home { font-size: 13px; letter-spacing: 0.16em; }
+    .nav-home:hover { color: var(--accent); text-decoration: none; }
+    .nav-home .hico { flex: none; width: 11px; height: 11px; display: grid; place-items: center; color: var(--accent); }
+    .nav-home .hico svg { width: 16px; height: 16px; flex: none; }
+    .nav-home .hico svg { transform: translateY(-2.8px); }  /* center icon on the cap height of 12px uppercase text */
+    html[lang="zh-Hant"] .nav-home .hico svg, .menu-panel .nav-home .hico svg { transform: translateY(-2.4px); }  /* 13px text */
+    .sidenav .nav-home { color: var(--faint); }
+    .sidenav .nav-home:hover { color: var(--accent); }
+    .menu-panel .nav-home { padding: 8px 0; font-size: 13px; color: var(--body); }
+    .nav-home .hico { border-radius: 4px; transition: background-color .2s, box-shadow .2s; }
+    .nav-home.active, .sidenav .nav-home.active, .menu-panel .nav-home.active { color: var(--accent); }
+    .nav-home.active .hico { background: color-mix(in srgb, var(--accent) 18%, transparent);
+                             box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+
+    .sidenav .nav-home.active .hico,
+    .menu-panel .nav-home.active .hico { background: none; box-shadow: none; }
+    .sidenav { display: none; position: fixed; top: 86px; z-index: 20; }
+    .sidenav .tl a { color: var(--faint); }
+    .sidenav .tl a:not(.active):not(.passed) .dot { border-color: color-mix(in srgb, var(--accent) 30%, var(--line)); }
+    .sidenav .tl a:hover, .sidenav .tl a.active { color: var(--accent); }
+
+    /* Mobile dropdown panel */
+    .menu-panel { position: fixed; top: 70px; left: 20px; z-index: 25; width: 236px;
+                  padding: 14px 18px 12px; border-radius: 14px;
+                  background: var(--soft);
+                  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+                  box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--accent) 40%, transparent);
+                  opacity: 0; visibility: hidden; transform: translateY(-6px) scale(.98); transform-origin: top left;
+                  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+    .menu-panel.open { opacity: 1; visibility: visible; transform: none;
+                       transition: opacity .18s ease, transform .18s ease, visibility 0s; }
+    .menu-panel .tl { --dotbg: var(--soft); }
+    .menu-panel .tl a { padding: 8px 0; font-size: 13px; color: var(--body); }
+    .menu-panel .tl a.active { color: var(--accent); }
+    .menu-scrim { position: fixed; inset: 0; z-index: 24; background: color-mix(in srgb, var(--bg) 88%, transparent);
+                  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+                  opacity: 0; visibility: hidden; transition: opacity .18s ease, visibility 0s linear .18s; }
+    .menu-scrim.open { opacity: 1; visibility: visible; transition: opacity .18s ease, visibility 0s; }
+
+    /* Mobile / narrow */
+    @media (max-width: 1023px) {
+      .lang-toggle { top: 72px; opacity: 0; visibility: hidden; transform: translateY(-6px);
+                     transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s, border-color .15s, color .15s; }
+      body.menu-open .lang-toggle { opacity: 1; visibility: visible; transform: none;
+                                    transition: opacity .18s ease, transform .18s ease, visibility 0s, border-color .15s, color .15s; }
+      .menu-panel { top: 128px; left: auto; right: 34.5px; width: auto; padding: 0;
+                    background: none; border: 0; border-radius: 0; box-shadow: none; transform-origin: top right; }
+      .menu-panel .tl { --dotbg: var(--bg); }
+      .menu-panel .tl::before, .menu-panel .tl::after { left: auto; right: 5px; }
+      .menu-panel .tl a, .menu-panel .nav-home { flex-direction: row-reverse; justify-content: flex-start; text-align: right; }
+    }
+
+    /* Desktop sidebar */
+    @media (min-width: 1024px) {
+      .sidenav { display: block; left: 32px; }
+      .menu-toggle, .menu-panel, .menu-scrim { display: none; }
+      .wrap { margin-left: 208px; margin-right: auto; }
+    }
+    @media (min-width: 1360px) {
+      .sidenav { left: calc((100vw - 880px) / 2 - 196px); }
+      .wrap { margin: 0 auto; }
+    }
+
+    /* Header */
+    header { display: grid; grid-template-columns: 1fr 160px; gap: 40px; align-items: start; }
+    h1 { font-family: Fraunces, Georgia, serif; font-weight: 500; font-size: clamp(34px, 7vw, 48px); letter-spacing: -0.01em; line-height: 1.1;
+         text-box: trim-start cap alphabetic; }
+    .role { margin-top: 10px; color: var(--muted); font-size: 17px; }
+    .links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15.5px; font-weight: 600; }
+    .portrait { position: relative; width: 160px; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden;
+                background: var(--soft); margin-top: -8px; }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .portrait .mono { position: absolute; inset: 0; display: grid; place-items: center;
+                      font-family: var(--serif); font-size: 40px; color: var(--accent); opacity: .55; }
+    .portrait img + .mono { display: none; }
+    .portrait.empty .mono { display: grid; }
+
+    section { margin-top: 56px; scroll-margin-top: 32px; }
+    header + section { margin-top: 40px; }
+    h2 { font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+         padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+    html[lang="zh-Hant"] h2 { font-size: 14px; letter-spacing: 0.18em; }
+    section > p + p { margin-top: 14px; }
+
+    .interests { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; }
+    .interests li { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: center; }
+    .interests .icon { width: 40px; height: 40px; border-radius: 8px; background: var(--soft);
+                       display: grid; place-items: center; overflow: hidden; }
+    .interests .icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .interests .icon.empty::after { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--accent); opacity: .5; }
+    .interests strong { font-weight: 500; display: block; line-height: 1.45; }
+
+    /* Entries */
+    .entries { list-style: none; }
+    .entries li { padding: 10px 0; }
+    .entries .head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+    .entries .head strong { font-weight: 600; font-size: 16.5px; color: var(--ink); }
+    .entries .when { color: var(--faint); font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .entries .org { color: var(--faint); font-size: 14px; margin-top: 1px; }
+    .entries .detail { color: var(--body); font-size: 15px; margin-top: 4px; }
+
+    .pubs { list-style: none; }
+    .pubs li { padding: 12px 0; font-size: 15px; line-height: 1.6; }
+    .pubs .title { font-weight: 600; font-size: 16.5px; color: var(--ink); }
+    .pubs .authors { color: var(--body); margin-top: 3px; }
+    .pubs .authors b { color: var(--ink); font-weight: 600; }
+    .pubs li > div:last-child { color: var(--faint); font-size: 14px; margin-top: 2px; }
+    .pubs .venue { font-style: italic; }
+    .pill { display: inline-block; font-size: 12px; line-height: 1.7; padding: 0 8px; margin-left: 6px;
+            border: 1px solid var(--line); border-radius: 999px; vertical-align: 1px; }
+    .pill:hover { text-decoration: none; border-color: var(--accent); }
+
+    footer { margin-top: 72px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 64px 16px 48px; }
+      .fab { top: 14px; }
+      .lang-toggle { right: 14px; }
+      .menu-toggle { right: 14px; }
+      .lang-toggle { top: 62px; }
+      .menu-panel { top: 116px; right: 28.5px; }
+      section { scroll-margin-top: 68px; }
+      header { grid-template-columns: 1fr; gap: 24px; }
+      .portrait { width: 120px; order: -1; }
+      h1 { text-box: none; }
+      .interests { grid-template-columns: 1fr; }
+      .entries .head { flex-direction: column; gap: 0; }
+    }
+    @media (min-width: 641px) and (max-width: 1023px) {
+      section { scroll-margin-top: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <button class="fab lang-toggle" id="langToggle" type="button" aria-label="切換為中文" title="切換為中文">中</button>
+
+  <button class="fab menu-toggle" id="menuToggle" type="button" aria-label="Sections" aria-expanded="false" aria-controls="menuPanel">
+    <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <div class="menu-scrim" id="menuScrim"></div>
+  <nav class="menu-panel" id="menuPanel" aria-label="Sections">
+    <a class="nav-home" href="https://minenchou.github.io/" target="_self"><span class="hico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M22.96 9.04A9.84 9.84 0 1 0 22.96 22.96" fill="none" stroke="currentColor" stroke-width="3.84" stroke-linecap="round"/><circle cx="16" cy="16" r="3.48" fill="currentColor"/></svg></span><span data-i18n="nav_home">Home</span></a>
+    <ul class="tl">
+      <li><a href="#about" target="_self"><span class="dot"></span><span data-i18n="nav_about">About</span></a></li>
+      <li><a href="#interests" target="_self"><span class="dot"></span><span data-i18n="nav_interests">Research</span></a></li>
+      <li><a href="#publications" target="_self"><span class="dot"></span><span data-i18n="nav_pubs">Publications</span></a></li>
+      <li><a href="#patents" target="_self"><span class="dot"></span><span data-i18n="nav_patents">Patents</span></a></li>
+      <li><a href="#experience" target="_self"><span class="dot"></span><span data-i18n="nav_exp">Experience</span></a></li>
+      <li><a href="#education" target="_self"><span class="dot"></span><span data-i18n="nav_edu">Education</span></a></li>
+      <li><a href="#contact" target="_self"><span class="dot"></span><span data-i18n="nav_contact">Contact</span></a></li>
+    </ul>
+  </nav>
+
+  <nav class="sidenav" aria-label="Sections">
+    <a class="nav-home" href="https://minenchou.github.io/" target="_self"><span class="hico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M22.96 9.04A9.84 9.84 0 1 0 22.96 22.96" fill="none" stroke="currentColor" stroke-width="3.84" stroke-linecap="round"/><circle cx="16" cy="16" r="3.48" fill="currentColor"/></svg></span><span data-i18n="nav_home">Home</span></a>
+    <ul class="tl">
+      <li><a href="#about" target="_self"><span class="dot"></span><span data-i18n="nav_about">About</span></a></li>
+      <li><a href="#interests" target="_self"><span class="dot"></span><span data-i18n="nav_interests">Research</span></a></li>
+      <li><a href="#publications" target="_self"><span class="dot"></span><span data-i18n="nav_pubs">Publications</span></a></li>
+      <li><a href="#patents" target="_self"><span class="dot"></span><span data-i18n="nav_patents">Patents</span></a></li>
+      <li><a href="#experience" target="_self"><span class="dot"></span><span data-i18n="nav_exp">Experience</span></a></li>
+      <li><a href="#education" target="_self"><span class="dot"></span><span data-i18n="nav_edu">Education</span></a></li>
+      <li><a href="#contact" target="_self"><span class="dot"></span><span data-i18n="nav_contact">Contact</span></a></li>
+    </ul>
+  </nav>
+
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 data-i18n="name">Min-En (Elsa) Chou</h1>
+        <p class="role" data-i18n="role">Experimental AMO physicist, working toward AI for quantum systems</p>
+        <div class="links">
+          <a href="cv.pdf" data-i18n="cv">CV</a>
+          <a href="https://scholar.google.com/citations?user=KDKMqLIAAAAJ&hl=en">Google Scholar</a>
+          <a href="https://www.linkedin.com/in/elsa-c/">LinkedIn</a>
+          <a href="https://github.com/minenchou">GitHub</a>
+          <a href="https://clinqclinq.studio/" data-i18n="studio">Studio</a>
+        </div>
+      </div>
+      <div class="portrait">
+        <img src="photo.jpg" alt="Portrait of Elsa Chou" onerror="this.parentNode.classList.add('empty');this.remove()">
+        <span class="mono" aria-hidden="true">EC</span>
+      </div>
+    </header>
+
+    <section id="about">
+      <h2 data-i18n="h_about">About</h2>
+      <p data-i18n="about1">I approach quantum systems from the hardware up. At National Tsing Hua University, I spent 3+ years co-building an ultracold lithium–cesium apparatus from bare optical table to working experiment. I then spent 2.5 years in optical R&D at LARGAN Precision, designing imaging lenses and image-processing tools.</p>
+      <p data-i18n="about2">I now work on AI-driven research and design for ultracold-atom experiments. Alignment, tuning, troubleshooting, and optical design still consume much of a lab's time, and they are well suited to automation. I want to test these methods on real hardware, and build research infrastructure where people and AI collaborate. I'm currently looking for PhD positions in this direction.</p>
+      <p data-i18n="about3">I'm also interested in how this shift changes the way researchers think and learn, and in making quantum information something people can see and touch. Outside my research, I run <a href="https://clinqclinq.studio/">clinqclinq studio</a>, a small space for playful interactive and visual pieces.</p>
+    </section>
+
+    <section id="interests">
+      <h2 data-i18n="h_interests">Research interests</h2>
+      <ul class="interests">
+        <li><div class="icon"><img src="icons/ai-hardware.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i1_t">Autonomous ultracold-atom systems</strong></div></li>
+        <li><div class="icon"><img src="icons/quantum-data.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i2_t">AI-driven research and optical design</strong></div></li>
+        <li><div class="icon"><img src="icons/neutral-atom.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i3_t">Neutral-atom platforms</strong></div></li>
+        <li><div class="icon"><img src="icons/seeing-quantum.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i4_t">Seeing quantum phenomena</strong></div></li>
+        <li><div class="icon"><img src="icons/resource-estimation.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i5_t">Quantum resource estimation</strong></div></li>
+        <li><div class="icon"><img src="icons/decoder.svg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"></div><div><strong data-i18n="i6_t">Quantum error correction</strong></div></li>
+      </ul>
+    </section>
+
+    <section id="publications">
+      <h2 data-i18n="h_pubs">Publications</h2>
+      <ol class="pubs">
+        <li>
+          <div class="title">Gestural control of quantum information in virtual reality</div>
+          <div class="authors">H. C. Chang, H. C. Lang, I. C. H. Liu, <b>M. E. Chou</b></div>
+          <div><span class="venue">In SIGGRAPH Posters ’26. Article 48, pp. 1–3</span>, 2026 <a class="pill" href="https://dl.acm.org/doi/10.1145/3799825.3818757">DOI</a></div>
+        </li>
+        <li>
+          <div class="title">Cold lithium–cesium slow atomic beam from a two-dimensional magneto-optical trap</div>
+          <div class="authors">Y. D. Chen, W. X. Li, <b>M. E. Chou</b>, C. H. Kuo, C. S. Li, S. Tung</div>
+          <div><span class="venue">Physical Review A</span> 103, 023102, 2021 <a class="pill" href="https://doi.org/10.1103/PhysRevA.103.023102">DOI</a></div>
+        </li>
+        <li>
+          <div class="title">Towards a dual-species Bose–Einstein condensate of ⁷Li and ¹³³Cs</div>
+          <div class="authors">Y. D. Chen, W. X. Li, C. S. Li, <b>M. E. Chou</b>, S. K. Tung</div>
+          <div><span class="venue">APS DAMOP Meeting</span>, 2020 <a class="pill" href="https://ui.adsabs.harvard.edu/abs/2020APS..DMPE01105C/abstract" data-i18n="pill_abs">Abstract</a></div>
+        </li>
+        <li>
+          <div class="title">A new lithium–cesium machine for the study of quasiparticle localization in Bose–Einstein condensates</div>
+          <div class="authors">Y. D. Chen, W. X. Li, C. S. Li, A. L. Chen, <b>M. E. Chou</b>, C. H. Kuo, C. Y. Jhang, S. K. Tung</div>
+          <div><span class="venue">APS DAMOP Meeting</span>, 2018 <a class="pill" href="https://ui.adsabs.harvard.edu/abs/2018APS..DMPE01114C/abstract" data-i18n="pill_abs">Abstract</a></div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="patents">
+      <h2 data-i18n="h_patents">Patents</h2>
+      <ol class="pubs">
+        <li>
+          <div class="title">Imaging optical lens system, imaging apparatus and electronic device</div>
+          <div class="authors" data-i18n="pat_auth"><b>M. E. Chou</b>, G. J. Liao · LARGAN Precision</div>
+          <div><span data-i18n="pat_status">US 2026/0072251 A1. Pending.</span> <a class="pill" href="https://patents.google.com/patent/US20260072251A1/en" data-i18n="pill_pat">Patent</a></div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="experience">
+      <h2 data-i18n="h_exp">Experience</h2>
+      <ul class="entries">
+        <li>
+          <div class="head"><strong data-i18n="e1_t">Research Assistant</strong><span class="when">2025 – 2026</span></div>
+          <div class="org" data-i18n="e1_o">National Yang Ming Chiao Tung University · Hsinchu, Taiwan</div>
+          <div class="detail" data-i18n="e1_d">Quantum HCI, visualization, and art administrative coordination.</div>
+        </li>
+        <li>
+          <div class="head"><strong data-i18n="e2_t">Optical R&amp;D Engineer</strong><span class="when">2023 – 2025</span></div>
+          <div class="org" data-i18n="e2_o">LARGAN Precision · Taichung, Taiwan</div>
+          <div class="detail" data-i18n="e2_d">Imaging lens design, tolerancing, and image-processing algorithms.</div>
+        </li>
+        <li>
+          <div class="head"><strong data-i18n="e3_t">Patent Engineer</strong><span class="when">2021 – 2022</span></div>
+          <div class="org" data-i18n="e3_o">TSAI, LEE &amp; CHEN / JC Patent Attorneys Office · Taipei, Taiwan</div>
+          <div class="detail" data-i18n="e3_d">Patent drafting and patentability analysis across optics, semiconductors, and robotics.</div>
+        </li>
+        <li>
+          <div class="head"><strong data-i18n="e4_t">Graduate Researcher</strong><span class="when">2017 – 2020</span></div>
+          <div class="org" data-i18n="e4_o">Quantum Gas Laboratory, National Tsing Hua University · Hsinchu, Taiwan</div>
+          <div class="detail" data-i18n="e4_d">Ultracold Li-Cs apparatus design and construction. Advisor: Shih-Kuang Tung.</div>
+        </li>
+        <li>
+          <div class="head"><strong data-i18n="e5_t">Undergraduate Researcher</strong><span class="when">2016 – 2017</span></div>
+          <div class="org" data-i18n="e5_o">National Tsing Hua University · Hsinchu, Taiwan</div>
+          <div class="detail" data-i18n="e5_d">Magnetic monopole simulations in topological insulators. Advisor: Chung-Yu Mou.</div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="education">
+      <h2 data-i18n="h_edu">Education</h2>
+      <ul class="entries">
+        <li>
+          <div class="head"><strong data-i18n="ed1_t">M.S. Physics</strong><span class="when">2018-2020</span></div>
+          <div class="org" data-i18n="ed_o">National Tsing Hua University · Hsinchu, Taiwan</div>
+          <div class="detail" data-i18n="ed1_d">Thesis: "Building a compact apparatus for the creation of ultracold Li and Cs atoms."</div>
+        </li>
+        <li>
+          <div class="head"><strong data-i18n="ed2_t">B.S. Physics</strong><span class="when">2014-2018</span></div>
+          <div class="org" data-i18n="ed_o">National Tsing Hua University · Hsinchu, Taiwan</div>
+          <div class="detail" data-i18n="ed2_d">Graduated in the top 10% of the class.</div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2 data-i18n="h_contact">Contact</h2>
+      <p data-i18n="contact_intro">Email: elsaxchou[a]gmail.com</a> for more information.</p>
+    </section>
+
+    <footer>© <span id="y">2026</span> Copyright Min-En (Elsa) Chou · <span data-i18n="loc">Taipei, Taiwan</span>.</footer>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    /* Favicon: swap colors from the page */
+    (function () {
+      var link = document.getElementById('favicon');
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      function svg(c) {
+        return 'data:image/svg+xml,' + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>" +
+          "<path d='M22.96 9.04A9.84 9.84 0 1 0 22.96 22.96' fill='none' stroke='" + c + "' stroke-width='3.84' stroke-linecap='round'/>" +
+          "<circle cx='16' cy='16' r='3.48' fill='" + c + "'/></svg>");
+      }
+      function update() { link.href = svg(mq.matches ? '#9fb6df' : '#5673a8'); }
+      update();
+      if (mq.addEventListener) mq.addEventListener('change', update); else if (mq.addListener) mq.addListener(update);
+    })();
+
+    var menuBtn = document.getElementById('menuToggle');
+    var menuPanel = document.getElementById('menuPanel');
+    var menuScrim = document.getElementById('menuScrim');
+
+    (function () {
+      var ZH = {
+        name: 'Min-En (Elsa) Chou',
+        role: '實驗原子分子光學物理背景，致力於以 AI 推動量子系統研究',
+        nav_home: '首頁',
+        nav_about: '關於我',
+        nav_interests: '研究',
+        nav_pubs: '著作',
+        nav_patents: '專利',
+        nav_exp: '經歷',
+        nav_edu: '學歷',
+        nav_contact: '聯絡',
+        h_about: '關於我',
+        about1: '我從硬體出發理解量子系統。在國立清華大學期間，我花了三年多參與建造一套超冷鋰銫原子實驗系統，從一張空的光學桌一路做到可以運作的實驗。之後我在大立光電從事光學研發兩年半，設計成像鏡頭並開發影像處理工具。',
+        about2: '我目前投入以 AI 驅動超冷原子實驗的研究與設計。光路校準、參數調校、故障排除與光學設計至今仍佔去實驗室大量時間，而這些工作正適合自動化。我希望在真實硬體上驗證這些方法，並建立人與 AI 協作的研究基礎設施。我正在尋找這個方向的博士班機會。',
+        about3: '我也關注這波轉變如何改變研究者思考與學習的方式，並希望讓量子資訊成為人們看得見、摸得著的東西。研究之外，我經營 <a href="https://clinqclinq.studio/">clinqclinq studio</a>，一個發表趣味互動與視覺作品的小小空間。',
+        h_interests: '研究興趣',
+        i1_t: '自主運作的超冷原子系統',
+        i2_t: 'AI 驅動的研究與光學設計',
+        i3_t: '中性原子平台',
+        i4_t: '看見量子現象',
+        i5_t: '量子資源估計',
+        i6_t: '量子錯誤更正',
+        h_pubs: '著作發表',
+        h_patents: '專利',
+        h_exp: '經歷',
+        e1_t: '研究助理',
+        e1_o: '國立陽明交通大學 · 台灣新竹',
+        e1_d: '量子人機互動與視覺化研究，並負責藝術行政協調。',
+        e2_t: '光學研發工程師',
+        e2_o: '大立光電 · 台灣台中',
+        e2_d: '成像鏡頭設計、公差分析與影像處理演算法開發。',
+        e3_t: '專利工程師',
+        e3_o: '連邦國際專利商標 / 將群智權事務所 · 台灣台北',
+        e3_d: '撰寫專利說明書並進行可專利性分析，領域涵蓋光學、半導體與機器人。',
+        e4_t: '碩士研究生',
+        e4_o: '國立清華大學 量子氣體實驗室 · 台灣新竹',
+        e4_d: '超冷鋰銫實驗裝置的設計與建造。指導教授：童世光。',
+        e5_t: '大學部專題研究',
+        e5_o: '國立清華大學 · 台灣新竹',
+        e5_d: '拓樸絕緣體中磁單極的數值模擬。指導教授：牟中瑜。',
+        h_edu: '學歷',
+        ed1_t: '物理學碩士',
+        ed_o: '國立清華大學 · 台灣新竹',
+        ed1_d: '碩士論文：《架設一套用以產生超冷鋰、銫原子的緊密型實驗裝置》。',
+        ed2_t: '物理學學士',
+        ed2_d: '以全班前 10% 的成績畢業。',
+        h_contact: '聯絡方式',
+        contact_intro: '如需更多資訊，歡迎來信 elsaxchou[a]gmail.com</a>。'
+      };
+
+      var nodes = document.querySelectorAll('[data-i18n]');
+      var EN = [];
+      nodes.forEach(function (el, i) { EN[i] = el.innerHTML; });
+      var enTitle = document.title;
+      var btn = document.getElementById('langToggle');
+
+      function apply(lang) {
+        var zh = lang === 'zh';
+        nodes.forEach(function (el, i) {
+          var k = el.getAttribute('data-i18n');
+          el.innerHTML = zh && ZH[k] != null ? ZH[k] : EN[i];
+        });
+        document.documentElement.lang = zh ? 'zh-Hant' : 'en';
+        document.title = enTitle;
+        btn.textContent = zh ? 'EN' : '中';
+        var label = zh ? 'Switch to English' : '切換為中文';
+        btn.setAttribute('aria-label', label);
+        btn.title = label;
+        menuBtn.setAttribute('aria-label', zh ? '選單' : 'Sections');
+        try { localStorage.setItem('lang', lang); } catch (e) {}
+        if (window.__updateNav) window.__updateNav();
+      }
+
+      var initial = 'en';
+      var q = new URLSearchParams(location.search).get('lang');
+      if (q === 'zh' || q === 'en') initial = q;
+      else { try { initial = localStorage.getItem('lang') || 'en'; } catch (e) {} }
+      if (initial === 'zh') apply('zh');
+
+      btn.addEventListener('click', function () {
+        apply(document.documentElement.lang === 'zh-Hant' ? 'en' : 'zh');
+      });
+    })();
+
+    /* Section navigation: scroll spy, timeline fill, mobile menu */
+    (function () {
+      var ids = ['about', 'interests', 'publications', 'patents', 'experience', 'education', 'contact'];
+      var sections = ids.map(function (id) { return document.getElementById(id); });
+      var lists = document.querySelectorAll('.tl');
+      var homeLinks = document.querySelectorAll('.nav-home');
+      var current = -1;   /* -1 = Home */
+      var pinned = null;  /* menu pick, cleared on manual scroll */
+
+      function setActive(idx) {
+        current = idx;
+        homeLinks.forEach(function (h) {
+          h.classList.toggle('active', idx === -1);
+          if (idx === -1) h.setAttribute('aria-current', 'true'); else h.removeAttribute('aria-current');
+        });
+        lists.forEach(function (ul) {
+          var links = ul.querySelectorAll('a');
+          links.forEach(function (a, i) {
+            a.classList.toggle('active', i === idx);
+            a.classList.toggle('passed', i < idx);
+            if (i === idx) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+          });
+          var fill = idx > 0 ? links[idx].offsetTop - links[0].offsetTop : 0;
+          ul.style.setProperty('--fill', fill + 'px');
+        });
+      }
+
+      function compute() {
+        if (pinned !== null) return;
+        var line = window.innerHeight * 0.35;
+        var idx = -1;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].getBoundingClientRect().top <= line) idx = i;
+        }
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = sections.length - 1;
+        setActive(idx);
+      }
+      window.__updateNav = function () { setActive(current); };
+
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { compute(); ticking = false; });
+      }
+      function release() { pinned = null; }
+      window.addEventListener('wheel', release, { passive: true });
+      window.addEventListener('touchstart', release, { passive: true });
+      window.addEventListener('keydown', function (e) {
+        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].indexOf(e.key) >= 0) release();
+      });
+      document.addEventListener('mousedown', function (e) { if (!e.target.closest('.tl, .nav-home')) release(); });
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      compute();
+
+      function setMenu(open) {
+        menuPanel.classList.toggle('open', open);
+        menuScrim.classList.toggle('open', open);
+        document.body.classList.toggle('menu-open', open);
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) setActive(current);
+      }
+      menuBtn.addEventListener('click', function () {
+        setMenu(menuBtn.getAttribute('aria-expanded') !== 'true');
+      });
+      menuScrim.addEventListener('click', function () { setMenu(false); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menuPanel.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+      });
+
+      document.querySelectorAll('.tl a').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var target = document.querySelector(a.getAttribute('href'));
+          if (!target) return;
+          e.preventDefault();
+          setMenu(false);
+          pinned = ids.indexOf(target.id);
+          setActive(pinned);
+          target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+          history.replaceState(null, '', a.getAttribute('href'));
+        });
+      });
+
+      /* Home: scroll to top if already here */
+      homeLinks.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var u = new URL(a.href);
+          var samePage = u.origin === location.origin &&
+                         (location.pathname === u.pathname || location.pathname === u.pathname + 'index.html');
+          pinned = -1;
+          setActive(-1);
+          if (!samePage) return;
+          e.preventDefault();
+          setMenu(false);
+          window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          history.replaceState(null, '', location.pathname);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
